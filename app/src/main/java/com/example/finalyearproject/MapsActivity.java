@@ -33,14 +33,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == 1){
+        if(requestCode == 1 ){
 
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
-                if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                 }
+
             }
         }
     }
@@ -75,11 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
 
-                LatLng UserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                Toast.makeText(MapsActivity.this, location.toString(), Toast.LENGTH_SHORT).show();
 
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(UserLocation).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(UserLocation));
             }
 
             @Override
@@ -98,25 +96,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
 
-        if(Build.VERSION.SDK_INT <23){
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 0 ,0, locationListener);
+        if (Build.VERSION.SDK_INT < 23){
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
         } else {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
-                locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 0 ,0, locationListener);
-
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                LatLng UserLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(UserLocation).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(UserLocation));
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0 ,0 ,locationListener);
 
             }
+
         }
 
-        // Add a marker in Sydney and move the camera
+
+
+
 
     }
 }
