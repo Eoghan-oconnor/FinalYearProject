@@ -76,8 +76,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
 
-                Toast.makeText(MapsActivity.this, location.toString(), Toast.LENGTH_SHORT).show();
-
+               LatLng user = new LatLng(location.getLatitude(), location.getLongitude());
+               mMap.clear();
+               mMap.addMarker(new MarkerOptions().position(user).title("Your Location"));
+               mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
             }
 
             @Override
@@ -103,6 +105,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0 ,0 ,locationListener);
+
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                LatLng user = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(user).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
+
+
 
             }
 
