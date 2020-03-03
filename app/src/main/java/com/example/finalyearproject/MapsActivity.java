@@ -109,11 +109,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Causing error when null, Will Fix in the future.
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-               // LatLng user = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                if(lastKnownLocation == null){
+                    Toast.makeText(this,"Please wait while we get your location.", Toast.LENGTH_SHORT).show();
+                }
+
+               LatLng user = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 
                 mMap.clear();
-               // mMap.addMarker(new MarkerOptions().position(user).title("Your Location"));
-                //mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
+               mMap.addMarker(new MarkerOptions().position(user).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
 
 
 
