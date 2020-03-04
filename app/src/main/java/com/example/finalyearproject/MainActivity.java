@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i("Signup", "Successful");
                             openMaps();
                         } else {
-                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });

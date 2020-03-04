@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.finalyearproject">
+    package="com.example.finalyearproject" >
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -9,6 +10,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 
     <application
@@ -18,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".StarterApplication">
+        android:name=".StarterApplication"
+        android:networkSecurityConfig="@xml/network_security_config">
+
         <!-- This is for the Parse server running on AWS -->
         <meta-data
             android:name="com.parse.APPLICATION_ID"
