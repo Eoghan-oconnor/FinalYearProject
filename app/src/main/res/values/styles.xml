@@ -1,8 +1,5 @@
 <resources>
 
-    <string name="parse_app_id">2ff482936bfe8ac0a0fb8a13d9dbe8f58d06580f</string>
-    <string name="parse_client_key">3d1597fb59cb965e1c36f21bcca00bc3f1a8d9ed</string>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->

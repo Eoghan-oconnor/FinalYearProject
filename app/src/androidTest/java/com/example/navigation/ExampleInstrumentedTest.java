@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.navigation;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.finalyearproject", appContext.getPackageName());
+        assertEquals("com.example.navigation", appContext.getPackageName());
     }
 }

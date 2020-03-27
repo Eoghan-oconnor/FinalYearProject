@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.navigation;
 
 import org.junit.Test;
 

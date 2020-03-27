@@ -1,18 +1,6 @@
-package com.example.finalyearproject;
+package com.example.navigation;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +10,14 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     Boolean signUpMode = true;
 
@@ -84,11 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
-
     }
-
-        // Variables
-
     public void signUp(View view){
 
         EditText username  = (EditText) findViewById(R.id.usernameEditText);
@@ -100,10 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (signUpMode) {
 
-
                 ParseUser user = new ParseUser();
-
-
                 user.setUsername(username.getText().toString());
                 user.setPassword(password.getText().toString());
                 user.setEmail(email.getText().toString());
@@ -122,10 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.i("Signup", "Successful");
-                            openMaps();
+                            login();
                         } else {
-                            //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -137,10 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (user !=null){
                             Log.i("Appinfo","Successful");
-                            openMaps();
-
+                            login();
                         } else {
-                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
 
                         }
@@ -150,45 +132,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-         changeSignUp = (TextView) findViewById(R.id.ChangeSignUpMode);
+        changeSignUp = (TextView) findViewById(R.id.ChangeSignUpMode);
         signUpButton = (Button) findViewById(R.id.SignUp);
         email = (TextView) findViewById(R.id.emailEditText2);
         makeModel = (TextView) findViewById(R.id.makeModel);
         petrol = (RadioButton) findViewById(R.id.petrol);
         diesel = (RadioButton) findViewById(R.id.diesel);
         changeSignUp.setOnClickListener(this);
-
-
-        //username = (TextView) findViewById("userName");
-
-
-//        // Adding button, Place holder until login is added
-//        button = (Button) findViewById(R.id.button);
-//        // Listener for button
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Calls open maps method
-//                openMaps();
-//            }
-//        });
-
     }
 
-    public void openMaps(){
-        // Opens Maps.
-        Intent intent = new Intent(this, MapsActivity.class);
+    public void login(){
+        // opens App to user
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-
     }
-
-
 }
