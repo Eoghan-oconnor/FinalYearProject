@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     public void onClick(View view){
-
         if(view.getId() == R.id.ChangeSignUpMode){
             if(signUpMode){
 
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 diesel.setVisibility(View.INVISIBLE);
                 petrol.setVisibility(View.INVISIBLE);
             } else {
-
                 signUpMode = true;
                 signUpButton.setText("Sign Up");
                 changeSignUp.setText("or, Login");
@@ -52,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 diesel.setVisibility(View.VISIBLE);
                 petrol.setVisibility(View.VISIBLE);
             }
-
 
         }
     }
@@ -106,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (e == null) {
                             Log.i("Signup", "Successful");
                             login();
+
                         } else {
                             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             //Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -123,10 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             login();
                         } else {
                             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-
                         }
-
                     }
                 });
             }
