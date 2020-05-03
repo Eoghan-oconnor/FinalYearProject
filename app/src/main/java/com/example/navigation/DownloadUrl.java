@@ -50,4 +50,43 @@ public class DownloadUrl {
         return data;
 
     }
+
+    public String readPlaceDetails(String myUrl) throws Exception{
+        String data = "";
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
+
+        try{
+            URL url = new URL(myUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.connect();
+
+            inputStream = httpURLConnection.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder sb = new StringBuilder();
+
+            String line = "";
+            while((line = br.readLine())!=null){
+
+                sb.append(line);
+            }
+
+            data = sb.toString();
+            br.close();
+        } catch (MalformedURLException e){
+            Log.i("Downlaodurl", "ReadUrlPlace Id: " + e.getMessage());
+        }
+
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        finally {
+            inputStream.close();
+            httpURLConnection.disconnect();
+
+        }
+
+        return data;
+
+    }
 }

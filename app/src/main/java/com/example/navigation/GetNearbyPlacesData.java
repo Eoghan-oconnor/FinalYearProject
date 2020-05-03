@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.JsonReader;
+import android.util.Log;
 
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -44,7 +46,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return googlePlaceData;
     }
 
@@ -55,6 +56,7 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
             JSONArray resultArray = parentObject.getJSONArray("results");
 
             for (int i = 0; i < resultArray.length(); i++) {
+
                 JSONObject jsonObject = resultArray.getJSONObject(i);
                 JSONObject locationObject = jsonObject.getJSONObject("geometry").getJSONObject("location");
 
@@ -70,21 +72,35 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
 
                 String open = openObject.getString("open_now");
 
+                JSONObject placeIdObject = resultArray.getJSONObject(i);
+                String placeId = placeIdObject.getString("place_id");
+                Log.i("Place id: ", "pi"+ placeId);
+
                 LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
 
                 MarkerOptions markerOptions = new MarkerOptions()
                         .title(name)
-                        .snippet("Open now:"+open)
+                        .snippet("Open now: "+open)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                         .position(latLng);
                 map.addMarker(markerOptions);
 
-            }
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
 
+                        
+
+                        return false;
+                    }
+                });
+
+
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
 
 }

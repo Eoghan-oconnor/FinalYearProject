@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,18 +24,16 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class DashboardFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public class DashboardFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
 
     GoogleMap mMap;
     MapView mMapView;
@@ -89,8 +86,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String googleapikey = getActivity().getResources().getString(R.string.googlemapskey);
-
         mMapView = (MapView) mView.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
@@ -98,7 +93,9 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
             mMapView.getMapAsync(this);
         }
         setUPGClient();
+
     }
+
 
     private void setUPGClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
@@ -110,14 +107,13 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
 
         MapsInitializer.initialize(getContext());
 
         mMap = googleMap;
 
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -130,8 +126,13 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
                 currentLat = location.getLatitude();
                 currentLong = location.getLongitude();
 
+
                 getNearByGasStations();
             }
+
+
+
+
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
             }
@@ -172,6 +173,9 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
 
     public void getNearByGasStations(){
 
+        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
+
         StringBuilder stringBuilder =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
                 stringBuilder.append("location="+String.valueOf(currentLat)+","+String.valueOf(currentLong));
@@ -180,14 +184,16 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
 
         stringBuilder.append("&key="+mContext.getResources().getString(R.string.googlemapskey));
 
+
+
         String url = stringBuilder.toString();
 
         Object dataTransfer[] = new Object[2];
         dataTransfer[0] = mMap;
         dataTransfer[1] = url;
 
-        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         getNearbyPlacesData.execute(dataTransfer);
 
     }
+
 }
