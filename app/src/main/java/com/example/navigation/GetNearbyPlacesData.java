@@ -1,19 +1,14 @@
 package com.example.navigation;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.JsonReader;
+import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.DrawableRes;
-import androidx.core.content.ContextCompat;
-
+import com.example.navigation.ui.dashboard.DashboardFragment;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -23,16 +18,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
 
-public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
+public class GetNearbyPlacesData extends AsyncTask<Object,String,String> implements Serializable {
+
 
     String googlePlaceData;
     GoogleMap map;
     String url;
+    String placeID;
+    private HashMap<Integer, String> markerIdMapping = new HashMap<>();
 
 
-
+    private DashboardFragment context;
+    public GetNearbyPlacesData(DashboardFragment context){
+        this.context = context;
+    }
 
     @Override
     protected String doInBackground(Object... objects) {
@@ -51,6 +53,8 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
 
     @Override
     protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
         try {
             JSONObject parentObject = new JSONObject(s);
             JSONArray resultArray = parentObject.getJSONArray("results");
@@ -80,27 +84,39 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
 
                 MarkerOptions markerOptions = new MarkerOptions()
                         .title(name)
-                        .snippet("Open now: "+open)
+                        .snippet(placeId)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                         .position(latLng);
-                map.addMarker(markerOptions);
-
-                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-
-                        
-
-                        return false;
-                    }
-                });
-
-
+             //   map.addMarker(markerOptions);
+                Marker marker = map.addMarker(markerOptions);
+                markerIdMapping.put(i, placeId);
+                Log.i("MarkerMap", "PlaceId" + markerIdMapping.toString());
             }
+
+            Bundle args = new Bundle();
+            args.putSerializable("PlaceId", placeID);
+            DashboardFragment dashboardFragment = new DashboardFragment();
+            dashboardFragment.setArguments(args);
+            Log.i("placeId=", args.toString());
+
+            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Log.i("GN", "Marker");
+                    return false;
+                }
+            });
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
+
+
+
 
 
 }

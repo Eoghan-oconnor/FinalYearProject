@@ -3,6 +3,7 @@ package com.example.navigation.ui.dashboard;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.navigation.GetNearbyPlacesData;
+import com.example.navigation.InfoDisplay;
 import com.example.navigation.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,8 +43,9 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
     GoogleApiClient mGoogleApiClient;
     double currentLat;
     double currentLong;
-
     Location myLocation;
+
+    GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData(DashboardFragment.this);
 
     private Context mContext;
     @Override
@@ -50,6 +53,8 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
         super.onAttach(activity);
         mContext = activity;
     }
+
+
 
 
 
@@ -79,6 +84,12 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
                              ViewGroup container, Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        Bundle bundle = this.getArguments();
+        if(bundle == null){
+
+            Log.i("bundle", "null");
+        }
+
         return mView;
     }
 
@@ -92,6 +103,8 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
             mMapView.onResume();
             mMapView.getMapAsync(this);
         }
+
+
         setUPGClient();
 
     }
@@ -108,6 +121,8 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+
+
 
         MapsInitializer.initialize(getContext());
 
@@ -126,12 +141,24 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
                 currentLat = location.getLatitude();
                 currentLong = location.getLongitude();
 
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        String s = marker.getSnippet();
+                        String placeId = s.substring(0,26);
+                        Log.i("DB", "Marker: " + placeId);
+
+                        Intent intent = new Intent(getActivity(), InfoDisplay.class);
+                        intent.putExtra("placeId", placeId);
+                        startActivity(intent);
+
+                        return false;
+                    }
+                });
 
                 getNearByGasStations();
+
             }
-
-
-
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -172,9 +199,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     public void getNearByGasStations(){
-
-        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-
 
         StringBuilder stringBuilder =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
