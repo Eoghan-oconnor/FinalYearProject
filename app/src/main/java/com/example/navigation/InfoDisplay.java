@@ -11,23 +11,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.navigation.ui.dashboard.DashboardFragment;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
-
-import java.util.List;
 
 public class InfoDisplay extends AppCompatActivity {
 
     TextView placeName;
     EditText petrol;
     EditText diesel;
+    TextView created;
+    TextView updated;
     TextView name;
+    TextView openOrClosed;
     String placeId;
     String ShopName;
     Boolean petrolChanged = false;
@@ -45,13 +43,15 @@ public class InfoDisplay extends AppCompatActivity {
         placeId = getIntent().getStringExtra("placeId");
         ShopName = getIntent().getStringExtra("name");
 
-        placeName = (TextView) findViewById(R.id.PlaceName);
+        openOrClosed = (TextView) findViewById(R.id.openNowTorF);
         petrol = (EditText) findViewById(R.id.petrol);
         name = (TextView) findViewById(R.id.name);
         diesel = (EditText) findViewById(R.id.diesel);
+        created = (TextView) findViewById(R.id.CreatedAt);
+        updated =(TextView) findViewById(R.id.UpdatedAt);
 
-        placeName.setText(placeId);
-        placeName.setVisibility(View.INVISIBLE);
+//        placeName.setText(placeId);
+        //placeName.setVisibility(View.INVISIBLE);
         name.setText(ShopName);
 
         petrol.addTextChangedListener(new TextWatcher() {
@@ -131,8 +131,13 @@ public class InfoDisplay extends AppCompatActivity {
                 if (e == null) {
                     Log.i("petrol", "****** " + stationInfo.getString("PetrolPrice"));
 
+                    String open = String.valueOf(object.getBoolean("openNow"));
+                    openOrClosed.setText(open);
                     petrol.setText(object.getString("PetrolPrice"));
                     diesel.setText(object.getString("DieselPrice"));
+                    created.setText("This Station was added: " + object.getCreatedAt());
+                    updated.setText("This Station info updated: " + object.getUpdatedAt());
+
 
                 } else {
                     //Log.i("Exeception Response:", ":" + e.getMessage());
@@ -164,7 +169,6 @@ public class InfoDisplay extends AppCompatActivity {
                                 } else {
                                     Log.i("Error***", ":" + e.getMessage());
                                 }
-
                             }
                         });
                     }

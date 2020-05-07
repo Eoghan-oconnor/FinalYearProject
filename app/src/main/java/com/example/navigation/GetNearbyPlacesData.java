@@ -61,6 +61,8 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
             JSONObject parentObject = new JSONObject(s);
             JSONArray resultArray = parentObject.getJSONArray("results");
 
+            Log.i("ResultArray", "Length" + resultArray.length());
+
             for (int i = 0; i < resultArray.length(); i++) {
 
                 JSONObject jsonObject = resultArray.getJSONObject(i);
@@ -73,14 +75,9 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
                 JSONObject nameObject = resultArray.getJSONObject(i);
                 String name = nameObject.getString("name");
 
-                JSONObject openNow = resultArray.getJSONObject(i);
-                JSONObject openObject = openNow.getJSONObject("opening_hours");
-
-                String open = openObject.getString("open_now");
-
                 JSONObject placeIdObject = resultArray.getJSONObject(i);
                 String placeId = placeIdObject.getString("place_id");
-                Log.i("Place id: ", "pi"+ placeId);
+                Log.i("Place id: ", "\npi"+ placeId);
 
                 LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
 
@@ -93,6 +90,7 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
                 Marker marker = map.addMarker(markerOptions);
                 markerIdMapping.put(i, placeId);
                 Log.i("MarkerMap", "PlaceId" + markerIdMapping.toString());
+               // Log.i("\nResult Array", "Print element: " + resultArray.getString(i));
             }
 
             Bundle args = new Bundle();
@@ -100,14 +98,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
             DashboardFragment dashboardFragment = new DashboardFragment();
             dashboardFragment.setArguments(args);
             Log.i("placeId=", args.toString());
-
-            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    Log.i("GN", "Marker");
-                    return false;
-                }
-            });
 
 
         } catch (JSONException e) {

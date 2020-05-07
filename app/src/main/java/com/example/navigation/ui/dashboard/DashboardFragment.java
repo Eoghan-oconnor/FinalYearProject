@@ -31,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -138,6 +139,11 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
                 mMap.addMarker(new MarkerOptions().position(user).title("Your Location"));
                // mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(user, 10.0f));
+                mMap.addCircle(new CircleOptions()
+                .center(user)
+                .radius(10000)
+                .strokeWidth(0f)
+                .fillColor(0x550000FF));
                 currentLat = location.getLatitude();
                 currentLong = location.getLongitude();
 
@@ -213,7 +219,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
 
 
         String url = stringBuilder.toString();
-        Log.i("Url:", "NEarBy" + url);
+        Log.i("Url:", "NEarBy " + url);
 
         Object dataTransfer[] = new Object[2];
         dataTransfer[0] = mMap;
