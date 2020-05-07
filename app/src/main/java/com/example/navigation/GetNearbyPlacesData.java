@@ -39,6 +39,8 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
     @Override
     protected String doInBackground(Object... objects) {
 
+        Log.i("doInBACK", "*****");
+
         map = (GoogleMap) objects[0];
         url =(String) objects[1];
 

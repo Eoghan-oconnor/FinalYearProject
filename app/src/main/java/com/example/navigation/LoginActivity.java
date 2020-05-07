@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         makeModel = (TextView) findViewById(R.id.makeModel);
         petrol = (RadioButton) findViewById(R.id.petrol);
         diesel = (RadioButton) findViewById(R.id.diesel);
-        changeSignUp.setOnClickListener(this);
+            changeSignUp.setOnClickListener(this);
     }
 
     public void login(){

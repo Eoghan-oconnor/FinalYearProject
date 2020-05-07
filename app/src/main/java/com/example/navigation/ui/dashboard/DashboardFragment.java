@@ -145,11 +145,13 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         String s = marker.getSnippet();
-                        String placeId = s.substring(0,26);
+                        String placeId = s.substring(0,27);
                         Log.i("DB", "Marker: " + placeId);
+                        String name = marker.getTitle();
 
                         Intent intent = new Intent(getActivity(), InfoDisplay.class);
                         intent.putExtra("placeId", placeId);
+                        intent.putExtra("name", name);
                         startActivity(intent);
 
                         return false;
@@ -211,6 +213,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
 
 
         String url = stringBuilder.toString();
+        Log.i("Url:", "NEarBy" + url);
 
         Object dataTransfer[] = new Object[2];
         dataTransfer[0] = mMap;
