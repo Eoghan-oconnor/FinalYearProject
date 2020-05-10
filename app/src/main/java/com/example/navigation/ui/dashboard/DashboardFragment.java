@@ -123,8 +123,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-
-
         MapsInitializer.initialize(getContext());
 
         mMap = googleMap;
@@ -151,7 +149,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         String s = marker.getSnippet();
-                        
+
                         String placeId = s.substring(0,27);
 
                         Log.i("DB", "Marker: " + placeId);

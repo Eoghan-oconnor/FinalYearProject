@@ -56,7 +56,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-
         try {
             JSONObject parentObject = new JSONObject(s);
             JSONArray resultArray = parentObject.getJSONArray("results");
@@ -104,11 +103,4 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> impleme
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
 }
