@@ -55,11 +55,6 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback, G
         mContext = activity;
     }
 
-
-
-
-
-
     LocationManager locationManager;
     LocationListener locationListener;
 
