@@ -2,6 +2,7 @@ package com.example.navigation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -177,5 +178,10 @@ public class InfoDisplay extends AppCompatActivity {
 
             onBackPressed();
         }
+    }
+
+    public void onClickCamera(View view){
+        Intent intent = new Intent(this, OCR.class);
+        startActivity(intent);
     }
 }
