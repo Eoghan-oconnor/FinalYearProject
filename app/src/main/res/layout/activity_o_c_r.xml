@@ -44,6 +44,15 @@
                         android:textColor="#000"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
+                    <EditText
+                        android:id="@+id/resultEt2"
+                        android:hint=""
+                        android:autoLink="all"
+                        android:background="@null"
+                        android:padding="5dp"
+                        android:textColor="#000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
 

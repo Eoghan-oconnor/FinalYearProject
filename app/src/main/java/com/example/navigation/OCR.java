@@ -38,6 +38,7 @@ public class OCR extends AppCompatActivity {
     private Context mContext;
 
     EditText mResultEt;
+    EditText mResultEt2;
     ImageView mPreviewIv;
 
     private static final int CAMERA_REQUEST_CODE = 200;
@@ -64,6 +65,7 @@ public class OCR extends AppCompatActivity {
 
 
         mResultEt = findViewById(R.id.resultEt);
+        mResultEt2 = findViewById(R.id.resultEt2);
         mPreviewIv = findViewById(R.id.imageIv);
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -216,10 +218,17 @@ public class OCR extends AppCompatActivity {
                     for (int i = 0; i < items.size(); i++) {
                         TextBlock myItem = items.valueAt(i);
                         stringBuilder.append(myItem.getValue());
-                        stringBuilder.append("\n");
+                        stringBuilder.append("-");
                     }
 
-                    mResultEt.setText(stringBuilder.toString());
+                    String sb = stringBuilder.toString();
+
+                    String[] prices= sb.split("-");
+                    String price1 = prices[0];
+                    String price2 = prices[1];
+
+                    mResultEt.setText(price1);
+                    mResultEt2.setText(price2);
                 }
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
