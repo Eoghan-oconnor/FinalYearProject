@@ -325,11 +325,11 @@ public class OCR extends AppCompatActivity {
                 }
 
                 if (switchPrice2.isChecked()){
-                    object.put("DieselPrice",popupPrice2.getText().toString());
-                    object.put("PetrolPrice",popupPrice1.getText().toString());
-                } else if (!switchPrice2.isChecked()){
                     object.put("DieselPrice",popupPrice1.getText().toString());
                     object.put("PetrolPrice",popupPrice2.getText().toString());
+                } else if (!switchPrice2.isChecked()){
+                    object.put("DieselPrice",popupPrice2.getText().toString());
+                    object.put("PetrolPrice",popupPrice1.getText().toString());
                 }
 
                 object.saveInBackground(new SaveCallback() {
