@@ -148,7 +148,7 @@ public class InfoDisplay extends AppCompatActivity {
     }
 
     public void voidUpdateOnClick(View view) {
-        if (diesel.getText().toString().matches("") || diesel.getText().toString().matches("")) {
+        if (diesel.getText().toString().matches("") || petrol.getText().toString().matches("")) {
             Toast.makeText(this, "Please Do not enter a Blank String", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -182,6 +182,8 @@ public class InfoDisplay extends AppCompatActivity {
 
     public void onClickCamera(View view){
         Intent intent = new Intent(this, OCR.class);
+        intent.putExtra("placeId", placeId);
+        Log.i("placeIdID",placeId);
         startActivity(intent);
     }
 }
